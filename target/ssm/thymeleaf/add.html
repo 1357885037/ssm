@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/insertEmp.do}" method="post">
+    姓名：<input type="text" name="empname"><br>
+    性别：<select name="sex">
+    <option th:value="2">男</option>
+    <option th:value="1">女</option>
+</select><br>
+    部门：<select name="did"><br>
+    <option th:each="d:${d}" th:value="${d.did}">[[${d.dname}]]</option>
+</select><br>
+    <input type="submit" th:value="提交">
+</form>
+</body>
+</html>

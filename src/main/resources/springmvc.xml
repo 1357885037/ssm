@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
+
+
+    <!--    &lt;!&ndash; freemarker配置模板引擎&ndash;&gt;
+        <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+            <property name="templateLoaderPath" value="/ftl"></property>
+            <property name="defaultEncoding" value="utf-8"></property>
+        </bean>
+        &lt;!&ndash; freemarker视图解析器&ndash;&gt;
+        <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+            <property name="contentType" value="text/html;charset=utf-8"></property>
+            <property name="prefix" value=""></property>
+            <property name="suffix" value=".ftl"></property>
+        </bean>-->
+
+    <!--thymeleaf配置模板解析器-->
+    <bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+        <property name="characterEncoding" value="utf-8"></property>
+        <property name="prefix" value="/thymeleaf"></property>
+        <property name="suffix" value=".html"></property>
+        <!--是否缓存页面，开发时需设置为false，就可以再不重启服务器的情况下刷新页面-->
+        <property name="cacheable" value="false"></property>
+        <!-- templateMode设置为HTML-->
+        <property name="templateMode" value="HTML"></property>
+    </bean>
+    <!-- thymeleaf配置模板引擎-->
+    <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"></property>
+    </bean>
+    <!-- thymeleaf视图解析器-->
+    <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="characterEncoding" value="utf-8"></property>
+        <property name="templateEngine" ref="templateEngine"></property>
+    </bean>
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize">
+            <value>104857600</value>
+        </property>
+        <property name="maxInMemorySize">
+            <value>4096</value>
+        </property>
+    </bean>
+
+    <!--适配器和映射器-->
+    <mvc:annotation-driven></mvc:annotation-driven>
+
+    <!--开启注解扫描-->
+    <context:component-scan base-package="com.hy"></context:component-scan>
+
+    <!--swagger-->
+    <bean class="com.hy.dao.SwaggerConfig"></bean>
+</beans>
