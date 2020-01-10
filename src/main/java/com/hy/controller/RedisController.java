@@ -34,7 +34,12 @@ public class RedisController {
     @RequestMapping("/deleteById.do")
     public void deleteById(int empid) {
         redisService.deleteById(empid);
+
+
+        System.out.println("测试");
     }
+
+
 
     //redis修改缓存
     @ResponseBody
